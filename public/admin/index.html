@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel · Casa Prado</title>
+<link rel="icon" href="/assets/img/logo.jpg">
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+<header class="barra">
+  <a class="marca" href="/" target="_blank" rel="noopener"><img src="/assets/img/logo.jpg" alt=""> <span>Casa Prado <small>Painel</small></span></a>
+  <span class="estado" id="estado">Carregando…</span>
+  <div class="acoes">
+    <button type="button" class="b b-claro" id="bHistorico" title="Voltar a uma versão anterior">↺ Histórico</button>
+    <button type="button" class="b b-claro" id="bPrevia">👁 Pré-visualizar</button>
+    <button type="button" class="b b-ouro" id="bPublicar" disabled>Publicar</button>
+  </div>
+</header>
+<div class="corpo">
+  <nav class="menu" id="menu" aria-label="Seções do painel"></nav>
+  <select class="menu-celular" id="menuCelular" aria-label="Seção"></select>
+  <main class="conteudo" id="conteudo"><p class="carregando">Carregando o conteúdo do site…</p></main>
+</div>
+<div class="aviso-toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="dlg"></dialog>
+<script src="/assets/icons.js"></script>
+<script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -112,6 +112,7 @@
   function cab(o, extra) {
     return '<div class="cab revela"><span class="eyebrow">' + esc(t(o.sobre)) + "</span><h2>" + hl(t(o.titulo)) + "</h2>" + (o.sub ? '<p class="lead">' + esc(t(o.sub)) + "</p>" : "") + (extra || "") + "</div>";
   }
+  function sec(k, base) { var o = S.secoes && S.secoes[k]; return o ? Object.assign({}, base, o) : base; }
   function vis(a) { return (a || []).filter(function (x) { return x.mostrar !== false; }); }
   function menorPreco() {
     var q = vis(S.quartos).filter(function (x) { return x.situacao !== "reservado"; });
@@ -136,20 +137,20 @@
           "<div><b>" + S.condicoes.estadiaMinimaMeses + "</b><span>" + esc(t(UI.numeros[2])) + "</span></div>" +
         "</div></div>" + cred + "</section>" +
       '<div class="faixa" aria-hidden="true"><div class="faixa__trilho">' +
-        UI.faixa.concat(UI.faixa).map(function (x) { return "<span>" + esc(x) + "</span>"; }).join("") + "</div></div>";
+        (S.faixa || UI.faixa).concat(S.faixa || UI.faixa).map(function (x) { return "<span>" + esc(x) + "</span>"; }).join("") + "</div></div>";
   }
 
   function anfitrioes() {
     var a = S.anfitrioes; if (a.mostrar === false) return "";
     return '<section class="secao" id="anfitrioes"><div class="wrap anf">' +
       '<div class="anf__foto revela">' + foto(a.foto) + '<div class="anf__selo">' + ic("languages") + "<span>" + esc(t(a.idiomas)) + "</span></div></div>" +
-      '<div class="revela">' + cab(UI.anf).replace(' revela"', '"') + '<p class="texto">' + esc(t(a.texto)) + "</p></div>" +
+      '<div class="revela">' + cab(sec("anfitrioes", UI.anf)).replace(' revela"', '"') + '<p class="texto">' + esc(t(a.texto)) + "</p></div>" +
       "</div></section>";
   }
 
   function casa() {
     var c = S.casa;
-    return '<section class="secao escuro" id="casa"><div class="wrap">' + cab(UI.casa) +
+    return '<section class="secao escuro" id="casa"><div class="wrap">' + cab(sec("casa", UI.casa)) +
       '<div class="casa">' +
         '<div class="andar revela"><span class="andar__n">01</span><h3>' + esc(t(c.superior.titulo)) + "</h3><p>" + esc(t(c.superior.texto)) + "</p></div>" +
         '<div class="andar revela"><span class="andar__n">02</span><h3>' + esc(t(c.inferior.titulo)) + "</h3><p>" + esc(t(c.inferior.texto)) + "</p></div>" +
@@ -172,7 +173,7 @@
         "</div></article>";
     }).join("");
     var cd = S.condicoes;
-    return '<section class="secao" id="quartos"><div class="wrap">' + cab(UI.quartos) +
+    return '<section class="secao" id="quartos"><div class="wrap">' + cab(sec("quartos", UI.quartos)) +
       '<div class="quartos">' + cards + "</div>" +
       '<div class="todos revela">' + S.comodidades.map(function (c) { return "<span>" + ic(c.icone) + esc(t(c.texto)) + "</span>"; }).join("") + "</div>" +
       '<div class="cond revela">' +
@@ -183,8 +184,8 @@
   }
 
   function como() {
-    return '<section class="secao escuro" id="como"><div class="wrap">' + cab(UI.como) +
-      '<div class="passos">' + UI.como.passos.map(function (p, i) {
+    return '<section class="secao escuro" id="como"><div class="wrap">' + cab(sec("como", UI.como)) +
+      '<div class="passos">' + sec("como", UI.como).passos.map(function (p, i) {
         return '<div class="passo revela"><b>0' + (i + 1) + "</b><h3>" + esc(t(p.t)) + "</h3><p>" + esc(t(p.d)) + "</p></div>";
       }).join("") + "</div></div></section>";
   }
@@ -202,12 +203,12 @@
         }).join("") + "</ul></div>";
     }).filter(Boolean);
     if (!g.length) return "";
-    return '<section class="secao" id="servicos"><div class="wrap">' + cab(UI.servicos) + '<div class="grupos">' + g.join("") + "</div></div></section>";
+    return '<section class="secao" id="servicos"><div class="wrap">' + cab(sec("servicos", UI.servicos)) + '<div class="grupos">' + g.join("") + "</div></div></section>";
   }
 
   function local() {
     var l = S.local, f = UI.local.fotos;
-    return '<section class="secao papel" id="local"><div class="wrap">' + cab(UI.local) +
+    return '<section class="secao papel" id="local"><div class="wrap">' + cab(sec("local", UI.local)) +
       '<div class="mosaico">' +
         '<div class="mosaico__texto revela"><p class="lead" style="margin-top:0">' + esc(t(l.texto)) + "</p><h3>" + esc(t(UI.local.perto)) + '</h3><ul class="lista">' +
           l.perto.map(function (x) { return "<li>" + ic(x.icone) + esc(t(x.texto)) + "</li>"; }).join("") + "</ul>" +
@@ -225,7 +226,7 @@
     var it = vis(p.itens); if (!it.length) return "";
     var fundo = (it.filter(function (x) { return x.foto; })[0] || {}).foto;
     return '<section class="secao escuro passeios-sec" id="passeios">' + foto(fundo) + '<div class="wrap">' +
-      '<div class="cab--linha">' + cab({ sobre: UI.passeios.sobre, titulo: UI.passeios.titulo, sub: p.intro }) +
+      '<div class="cab--linha">' + cab({ sobre: sec("passeios", UI.passeios).sobre, titulo: sec("passeios", UI.passeios).titulo, sub: p.intro }) +
         '<div class="setas revela"><button type="button" data-rolar="-1" aria-label="Anterior">' + ic("arrow-left") + '</button><button type="button" data-rolar="1" aria-label="Próximo">' + ic("arrow-right") + "</button></div></div>" +
       '<div class="trilho" id="trilho">' + it.map(function (x) {
         var tag = t(UI.passeios[x.tipo === "fds" ? "fds" : "dia"]) + (x.km ? " · " + x.km + " km" : "");
@@ -238,7 +239,7 @@
   function glossario() {
     var g = S.glossario; if (g.mostrar === false) return "";
     var ps = vis(g.palavras); if (!ps.length) return "";
-    return '<section class="secao" id="mineires"><div class="wrap">' + cab(UI.gloss) +
+    return '<section class="secao" id="mineires"><div class="wrap">' + cab(sec("glossario", UI.gloss)) +
       '<div class="glossario">' + ps.map(function (w) {
         return '<button type="button" class="virar revela" aria-pressed="false"><span class="virar__in">' +
           '<span class="virar__f"><b>' + esc(w.palavra) + "</b><small>" + ic("rotate-cw") + esc(t(UI.gloss.toque)) + "</small></span>" +
@@ -248,7 +249,7 @@
 
   function faq() {
     if (!S.faq || !S.faq.length) return "";
-    return '<section class="secao papel" id="faq"><div class="wrap">' + cab(UI.faq) + '<div class="faq">' +
+    return '<section class="secao papel" id="faq"><div class="wrap">' + cab(sec("faq", UI.faq)) + '<div class="faq">' +
       S.faq.map(function (f) { return '<details class="revela"><summary>' + esc(t(f.p)) + ic("plus") + "</summary><p>" + esc(t(f.r)) + "</p></details>"; }).join("") +
       "</div></div></section>";
   }
@@ -266,7 +267,7 @@
   function contato() {
     var c = UI.contato;
     return '<section class="secao contato-sec escuro" id="contato"><div class="wrap contato">' +
-      '<div class="revela">' + cab(c).replace(' revela"', '"') + '<ul class="vant">' + c.vant.map(function (v) { return "<li>" + ic(v.i) + esc(t(v.t)) + "</li>"; }).join("") + "</ul></div>" +
+      '<div class="revela">' + cab(sec("contato", c)).replace(' revela"', '"') + '<ul class="vant">' + c.vant.map(function (v) { return "<li>" + ic(v.i) + esc(t(v.t)) + "</li>"; }).join("") + "</ul></div>" +
       '<form class="form revela" id="form" novalidate><h3>' + esc(t(c.form)) + "</h3>" +
         "<label>" + esc(t(c.nome)) + '<input name="nome" autocomplete="given-name" required></label>' +
         "<label>" + esc(t(c.perfil)) + '<select name="perfil">' + c.perfis.map(function (p) { return "<option>" + esc(t(p)) + "</option>"; }).join("") + "</select></label>" +

@@ -1,0 +1,31 @@
+{
+  // Casa Prado – site + painel /admin no Cloudflare Workers.
+  // Cada alteração no ramo "main" do GitHub é publicada automaticamente (Workers Builds).
+  "name": "casa-prado",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/", "/index.html", "/content.js", "/admin", "/admin/*", "/api/*", "/media/*"]
+  },
+  // Onde o painel guarda o conteúdo publicado e o histórico de versões.
+  "kv_namespaces": [
+    { "binding": "CONTENT", "id": "92334c1340bd48bcb37b7e5a3dfa0995" }
+  ],
+  // Tradução automática PT → EN/ES no painel (Workers AI, plano gratuito com limite diário).
+  "ai": { "binding": "AI" },
+  // Fotos enviadas pelo painel: ative o R2 na conta, crie o bucket "casa-prado-fotos"
+  // e então descomente as linhas abaixo.
+  // "r2_buckets": [
+  //   { "binding": "MEDIA", "bucket_name": "casa-prado-fotos" }
+  // ],
+  // Login do painel (Cloudflare Access). Os dois valores vêm do painel Zero Trust.
+  // Não são segredos: o "AUD" identifica o aplicativo de login.
+  "vars": {
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": ""
+  },
+  "observability": { "enabled": true }
+}

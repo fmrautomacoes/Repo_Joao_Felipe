@@ -1,60 +1,52 @@
 # Casa Prado – Coliving & Intercâmbio
 
-Site da Casa Prado (Belo Horizonte · MG · Brasil): moradia para intercambistas, pesquisadores e profissionais.
-
-**Fase 1:** página pública (vitrine) em português, inglês e espanhol, com contato pelo WhatsApp.
-
-## Versões de visual
-
-| Endereço | Versão |
-|---|---|
-| `/` | **Versão principal** (escolhida em 21/11/2026): imersiva, fotos grandes, verde-mata e dourado. |
-| `/v1/` | Versão 1 guardada (clara, creme/verde/âmbar). Não aparece no Google. |
-| `/v2/` | Endereço antigo da versão 2: redireciona para `/`. |
-
-As duas usam o **mesmo conteúdo** (`content.js`).
+Site da Casa Prado (Belo Horizonte · MG · Brasil), moradia para intercambistas, pesquisadores e profissionais, com **painel do administrador** em `/admin`.
+Publicado no **Cloudflare Workers**.
 
 ## Estrutura
 
-| Arquivo | O que é |
+| Caminho | O que é |
 |---|---|
-| `content.js` | **Todo o conteúdo do site**: textos (PT/EN/ES), preços, quartos, serviços, passeios, glossário, perguntas frequentes e configurações. Para mudar conteúdo, só este arquivo. |
-| `index.html` | Estrutura da página principal e dados de compartilhamento (prévia no WhatsApp). |
-| `assets/style.css` | Design: cores, fontes, layout. |
-| `assets/app.js` | Monta a página a partir do `content.js`, troca de idioma, formulário de contato. |
-| `assets/icons.js` | Ícones (Lucide, licença ISC) embutidos, sem depender de serviços externos. |
-| `assets/img/` | Logo e fotos. Fotos de lugares em `assets/img/fotos/`, do Wikimedia Commons (licenças em `creditos.json` e na página `creditos.html`). |
-| `v1/` | Versão 1 guardada (`index.html`, `style.css`, `app.js`). |
+| `public/` | O site (arquivos estáticos). |
+| `public/content.js` | **Conteúdo inicial** (textos PT/EN/ES, preços, quartos, serviços, passeios, glossário, títulos das seções, título/descrição para Google e WhatsApp). Usado só enquanto nada foi publicado pelo painel. Precisa continuar JSON válido após `window.SITE = `. |
+| `public/index.html`, `public/assets/` | Página principal: estrutura, design (`style.css`), montagem (`app.js`), ícones Lucide embutidos (`icons.js`, licença ISC), logo e fotos. |
+| `public/admin/` | Painel do administrador (formulários montados a partir do `ESQUEMA` em `admin.js`). |
+| `public/v1/` | Versão 1 do visual, guardada (não aparece no Google). `public/v2/` redireciona para `/`. |
+| `public/creditos.html` | Créditos das fotos do Wikimedia Commons (`assets/img/fotos/creditos.json`). |
+| `worker/index.js` | Servidor: entrega o conteúdo publicado, aplica título/descrição, protege o painel, guarda histórico. |
+| `wrangler.jsonc` | Configuração do Cloudflare (nome, KV, IA, fotos, variáveis do login). |
 
-Não há etapa de build: são arquivos estáticos, prontos para publicar.
+## Como o painel funciona
 
-## Antes de divulgar (pendências)
+- **Login:** Cloudflare Access (e-mail + código). O Worker também confere a assinatura do login (`ACCESS_TEAM_DOMAIN` e `ACCESS_AUD` em `wrangler.jsonc`). Sem essas duas variáveis, o painel fica **fechado** para todos.
+- **Publicar:** salva o conteúdo no KV (`CONTENT`); o site passa a usar esse conteúdo em segundos. O conteúdo de `public/content.js` vira apenas o valor inicial.
+- **Pré-visualizar:** salva um rascunho e abre `/admin/preview`, sem mudar o site público.
+- **Histórico:** as últimas 15 versões publicadas ficam guardadas; qualquer uma pode ser restaurada.
+- **Proteções:** validação antes de publicar (WhatsApp, preços, listas) e bloqueio de envios vindos de outros sites.
+- **Tradução PT → EN/ES:** Workers AI (binding `AI`).
+- **Envio de fotos:** R2 (binding `MEDIA`), desativado até o R2 ser ativado na conta (ver `wrangler.jsonc`).
 
-- [x] Número do WhatsApp em `content.js` → `config.whatsapp`.
-- [ ] Logo final (PNG transparente + SVG) em `assets/img/`.
-- [ ] Fotos reais da casa: capa, anfitriões, quartos, áreas comuns, passeios (campo `foto` de cada item em `content.js`). Sem foto, aparece uma imagem provisória.
-- [ ] Imagem de prévia para WhatsApp (1200×630) em `assets/img/og.jpg`, e o domínio em `index.html` / `config.siteUrl`.
+Para incluir um campo novo no painel: acrescente-o ao conteúdo, ao `ESQUEMA` de `public/admin/admin.js` e à montagem em `public/assets/app.js`.
 
-## Ver no computador
+> Atenção: depois que o painel publica algo, mudanças de **conteúdo** feitas direto em `public/content.js` não aparecem mais no site (o painel tem prioridade). Mudanças de conteúdo devem ser feitas pelo painel.
 
-Abra `index.html` no navegador, ou rode um servidor local:
+## Rodar no computador
 
 ```
-python3 -m http.server 8000
+npx wrangler dev
 ```
 
-Links por idioma: `?lang=pt`, `?lang=en`, `?lang=es`. Sem parâmetro, o site usa o idioma do navegador.
+Crie um arquivo `.dev.vars` (não vai para o GitHub) com `DEV_BYPASS="1"` para abrir o painel localmente sem login.
 
-## Publicar no Cloudflare Pages
+## Publicação
 
-1. Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Escolha este repositório e o branch.
-3. **Framework preset:** None · **Build command:** (vazio) · **Build output directory:** `/`.
-4. Salve. Cada novo envio ao GitHub publica uma nova versão automaticamente.
+Cada alteração no ramo `main` é publicada automaticamente pelo Workers Builds (Cloudflare conectado a este repositório).
 
-## Próximas fases
+## Pendências
 
-- **Fase 2:** painel `/admin` (Cloudflare Access + Workers) para editar o conteúdo sem programar; Guia do Morador.
-- **Fase 3:** automações (questionário, e-mail de boas-vindas).
+- [ ] Fotos reais da casa (capa, anfitriões, quartos, áreas comuns).
+- [ ] Logo final (PNG transparente + SVG) em `public/assets/img/`.
+- [ ] Domínio próprio.
+- [ ] Ativar R2 para envio de fotos pelo painel.
 
-> Ao trocar ou incluir uma foto do Wikimedia, atualize `assets/img/fotos/creditos.json` e `creditos.html`.
+> Ao incluir uma foto do Wikimedia, atualize `public/assets/img/fotos/creditos.json` e `public/creditos.html`.
