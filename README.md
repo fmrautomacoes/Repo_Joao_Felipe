@@ -4,27 +4,27 @@ Site da Casa Prado (Belo Horizonte · MG · Brasil): moradia para intercambistas
 
 **Fase 1:** página pública (vitrine) em português, inglês e espanhol, com contato pelo WhatsApp.
 
-## Duas versões de visual
+## Versões de visual
 
 | Endereço | Versão |
 |---|---|
-| `/` | **Versão 1**: clara e acolhedora (creme, verde e âmbar). |
-| `/v2/` | **Versão 2**: imersiva, com fotos grandes, verde-mata e dourado. |
+| `/` | **Versão principal** (escolhida em 21/11/2026): imersiva, fotos grandes, verde-mata e dourado. |
+| `/v1/` | Versão 1 guardada (clara, creme/verde/âmbar). Não aparece no Google. |
+| `/v2/` | Endereço antigo da versão 2: redireciona para `/`. |
 
-As duas usam o **mesmo conteúdo** (`content.js`): mudar um texto ou preço vale para as duas.
-Quando a versão for escolhida, ela passa a ser a principal (`/`) e a outra fica guardada.
+As duas usam o **mesmo conteúdo** (`content.js`).
 
 ## Estrutura
 
 | Arquivo | O que é |
 |---|---|
 | `content.js` | **Todo o conteúdo do site**: textos (PT/EN/ES), preços, quartos, serviços, passeios, glossário, perguntas frequentes e configurações. Para mudar conteúdo, só este arquivo. |
-| `index.html` | Estrutura da página e dados de compartilhamento (prévia no WhatsApp). |
+| `index.html` | Estrutura da página principal e dados de compartilhamento (prévia no WhatsApp). |
 | `assets/style.css` | Design: cores, fontes, layout. |
 | `assets/app.js` | Monta a página a partir do `content.js`, troca de idioma, formulário de contato. |
 | `assets/icons.js` | Ícones (Lucide, licença ISC) embutidos, sem depender de serviços externos. |
 | `assets/img/` | Logo e fotos. Fotos de lugares em `assets/img/fotos/`, do Wikimedia Commons (licenças em `creditos.json` e na página `creditos.html`). |
-| `v2/` | Versão 2 do visual (`index.html`, `style.css`, `app.js`). |
+| `v1/` | Versão 1 guardada (`index.html`, `style.css`, `app.js`). |
 
 Não há etapa de build: são arquivos estáticos, prontos para publicar.
 

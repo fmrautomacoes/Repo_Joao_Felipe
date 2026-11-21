@@ -13,7 +13,7 @@ window.SITE = {
   /* ---------- 1. CONFIGURAÇÕES GERAIS ---------- */
   config: {
     // Número do WhatsApp: só dígitos, com 55 + DDD
-    whatsapp: "553197739550",      // João: +55 31 9773-9550
+    whatsapp: "5531997739550",     // João: +55 31 99773-9550
     email: "",                       // opcional
     // Link do Google Maps apontando para a REGIÃO (bairro), não o endereço exato
     mapa: "https://www.google.com/maps/place/Prado,+Belo+Horizonte+-+MG",
