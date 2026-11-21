@@ -4,6 +4,9 @@
   "name": "casa-prado",
   "main": "worker/index.js",
   "compatibility_date": "2026-11-01",
+  // Endereço casa-prado.fmrautomacoes.workers.dev ligado; prévias de versões desligadas.
+  "workers_dev": true,
+  "preview_urls": false,
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
@@ -24,8 +27,8 @@
   // Login do painel (Cloudflare Access). Os dois valores vêm do painel Zero Trust.
   // Não são segredos: o "AUD" identifica o aplicativo de login.
   "vars": {
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": ""
+    "ACCESS_TEAM_DOMAIN": "autumn-star-5ae2.cloudflareaccess.com",
+    "ACCESS_AUD": "09bc66b0318cf6f45429a91ae4a5e23cc4e411d82663bc009d4888b1707af0cb"
   },
   "observability": { "enabled": true }
 }
