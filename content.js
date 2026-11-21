@@ -12,8 +12,8 @@ window.SITE = {
 
   /* ---------- 1. CONFIGURAÇÕES GERAIS ---------- */
   config: {
-    // ⚠️ EDITAR: número do WhatsApp, só dígitos, com 55 + DDD
-    whatsapp: "5531999999999",
+    // Número do WhatsApp: só dígitos, com 55 + DDD
+    whatsapp: "553197739550",      // João: +55 31 9773-9550
     email: "",                       // opcional
     // Link do Google Maps apontando para a REGIÃO (bairro), não o endereço exato
     mapa: "https://www.google.com/maps/place/Prado,+Belo+Horizonte+-+MG",
@@ -37,12 +37,13 @@ window.SITE = {
   },
 
   /* ---------- 3. CAPA ---------- */
+  /* Textos com *asterisco* aparecem em destaque (itálico colorido) na versão 2. */
   capa: {
-    foto: "",                        // ex.: "img/capa.jpg" (vazio = imagem provisória)
+    foto: "assets/img/fotos/bh-mirante.jpg", // trocar pela foto da casa quando houver
     titulo: {
-      pt: "Sua casa em Belo Horizonte",
-      en: "Your home in Belo Horizonte",
-      es: "Tu casa en Belo Horizonte"
+      pt: "Sua casa em *Belo Horizonte*",
+      en: "Your home in *Belo Horizonte*",
+      es: "Tu casa en *Belo Horizonte*"
     },
     subtitulo: {
       pt: "Quartos individuais com entrada independente, no tradicional bairro Prado, para intercambistas, pesquisadores e profissionais. Estadias a partir de 3 meses.",
@@ -252,13 +253,13 @@ window.SITE = {
       es: "Paseos organizados por los anfitriones para grupos de 3 a 4 residentes. Precios y fechas a consultar."
     },
     itens: [
-      { mostrar: true, foto: "", km: 60, tipo: "dia", nome: "Inhotim",
+      { mostrar: true, foto: "assets/img/fotos/inhotim-lago.jpg", km: 60, tipo: "dia", nome: "Inhotim",
         descricao: {
           pt: "Em Brumadinho: um dos maiores museus de arte contemporânea a céu aberto do mundo, dentro de um jardim botânico.",
           en: "In Brumadinho: one of the world’s largest open-air contemporary art museums, inside a botanical garden.",
           es: "En Brumadinho: uno de los mayores museos de arte contemporáneo al aire libre del mundo, dentro de un jardín botánico."
         } },
-      { mostrar: true, foto: "", km: 100, tipo: "dia", nome: "Serra do Cipó",
+      { mostrar: true, foto: "assets/img/fotos/cachoeira-grande.jpg", km: 100, tipo: "dia", nome: "Serra do Cipó",
         descricao: {
           pt: "Trilhas, cânions e cachoeiras de água cristalina.",
           en: "Trails, canyons and crystal-clear waterfalls.",

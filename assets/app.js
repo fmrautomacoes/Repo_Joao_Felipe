@@ -139,7 +139,7 @@
       foto(c.foto, "capa__fundo") +
       '<div class="wrap capa__in">' +
         '<span class="capa__local">' + ic("map-pin") + esc(t(UI.cidade)) + "</span>" +
-        "<h1>" + esc(t(c.titulo)) + "</h1>" +
+        "<h1>" + esc(t(c.titulo).replace(/\*/g, "")) + "</h1>" +
         '<p class="capa__sub">' + esc(t(c.subtitulo)) + "</p>" +
         (p ? '<div class="capa__preco"><span>' + esc(t(UI.aPartirDe)) + "</span><b>" + reais(p) + '</b><span>' + esc(t(UI.mes)) + " · " + esc(t(c.inicio)) + "</span></div>" : "") +
         '<div class="capa__acoes"><a class="btn" href="#quartos">' + ic("bed-double") + esc(t(UI.verQuartos)) + '</a>' +
@@ -304,7 +304,7 @@
         "<p>" + esc(t(UI.rodape.feito)) + "</p><p>" + esc(t(UI.cidade)) + "</p></div>" +
       '<div><a class="btn btn--claro" target="_blank" rel="noopener" href="' + wa(t(S.config.mensagemWhatsapp)) + '">' + ic("message-circle") + esc(t(UI.falar)) + "</a>" +
         (S.config.email ? '<p style="margin-top:12px"><a href="mailto:' + esc(S.config.email) + '">' + esc(S.config.email) + "</a></p>" : "") + "</div>" +
-      '</div><div class="rodape__mini">© ' + new Date().getFullYear() + " Casa Prado – Coliving &amp; Intercâmbio</div></div>";
+      '</div><div class="rodape__mini">© ' + new Date().getFullYear() + ' Casa Prado – Coliving &amp; Intercâmbio · <a href="creditos.html">' + esc(t({ pt: "Créditos das fotos", en: "Photo credits", es: "Créditos de las fotos" })) + "</a></div></div>";
   }
 
   /* ---------- montagem ---------- */

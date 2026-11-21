@@ -4,6 +4,16 @@ Site da Casa Prado (Belo Horizonte · MG · Brasil): moradia para intercambistas
 
 **Fase 1:** página pública (vitrine) em português, inglês e espanhol, com contato pelo WhatsApp.
 
+## Duas versões de visual
+
+| Endereço | Versão |
+|---|---|
+| `/` | **Versão 1**: clara e acolhedora (creme, verde e âmbar). |
+| `/v2/` | **Versão 2**: imersiva, com fotos grandes, verde-mata e dourado. |
+
+As duas usam o **mesmo conteúdo** (`content.js`): mudar um texto ou preço vale para as duas.
+Quando a versão for escolhida, ela passa a ser a principal (`/`) e a outra fica guardada.
+
 ## Estrutura
 
 | Arquivo | O que é |
@@ -13,15 +23,16 @@ Site da Casa Prado (Belo Horizonte · MG · Brasil): moradia para intercambistas
 | `assets/style.css` | Design: cores, fontes, layout. |
 | `assets/app.js` | Monta a página a partir do `content.js`, troca de idioma, formulário de contato. |
 | `assets/icons.js` | Ícones (Lucide, licença ISC) embutidos, sem depender de serviços externos. |
-| `assets/img/` | Logo e fotos. |
+| `assets/img/` | Logo e fotos. Fotos de lugares em `assets/img/fotos/`, do Wikimedia Commons (licenças em `creditos.json` e na página `creditos.html`). |
+| `v2/` | Versão 2 do visual (`index.html`, `style.css`, `app.js`). |
 
 Não há etapa de build: são arquivos estáticos, prontos para publicar.
 
 ## Antes de divulgar (pendências)
 
-- [ ] Número do WhatsApp em `content.js` → `config.whatsapp` (hoje: número provisório).
+- [x] Número do WhatsApp em `content.js` → `config.whatsapp`.
 - [ ] Logo final (PNG transparente + SVG) em `assets/img/`.
-- [ ] Fotos reais: capa, anfitriões, quartos, áreas comuns, passeios (campo `foto` de cada item em `content.js`). Sem foto, aparece uma imagem provisória.
+- [ ] Fotos reais da casa: capa, anfitriões, quartos, áreas comuns, passeios (campo `foto` de cada item em `content.js`). Sem foto, aparece uma imagem provisória.
 - [ ] Imagem de prévia para WhatsApp (1200×630) em `assets/img/og.jpg`, e o domínio em `index.html` / `config.siteUrl`.
 
 ## Ver no computador
@@ -45,3 +56,5 @@ Links por idioma: `?lang=pt`, `?lang=en`, `?lang=es`. Sem parâmetro, o site usa
 
 - **Fase 2:** painel `/admin` (Cloudflare Access + Workers) para editar o conteúdo sem programar; Guia do Morador.
 - **Fase 3:** automações (questionário, e-mail de boas-vindas).
+
+> Ao trocar ou incluir uma foto do Wikimedia, atualize `assets/img/fotos/creditos.json` e `creditos.html`.
